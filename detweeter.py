@@ -2,10 +2,12 @@
 
 
 from __future__ import print_function
-from tweet_reader import twit_reader
+import tweet_reader as tr
 
+twits = tr.twit_reader()
 
-twits = twit_reader()
-
+longth = 0
 for twit in twits:
-    print (twit)
+    longth += len(twit)
+
+print ("all " + str(len(twits)) + " twits are " + str(longth) + " longed")
