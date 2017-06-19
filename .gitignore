@@ -1,8 +1,11 @@
 *.json
 *.pyc
 *.py
+*.txt
+*
 !detweet_last.py
 !detweet.py
 !imaginations.py
 !tweet_reader.py
 !run_the_jewels.py
+!api_keys_example.json

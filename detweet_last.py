@@ -8,7 +8,7 @@ import tweepy
 import tweet_reader as tr
 
 
-def jewel_runner_bitch():
+def jewel_runner():
     """Run the jewels."""
     for item in listicle:
         try:
@@ -17,7 +17,7 @@ def jewel_runner_bitch():
             if new_twit != twit_dic[item]:
                 dtw.detweet(item)
                 twit_dic[item] = new_twit
-                print("gotcha bitch")
+                print("gotcha")
                 with open("recent_twits.json", "w") as fn:
                     json.dump(twit_dic, fn)
                 break
@@ -62,23 +62,10 @@ def mangle_reply(tweet):
     api.update_with_media(path, twit, in_reply_to_status_id=t_id)
 
 
-class Nartransistor(tweepy.StreamListener):
-    """Listen for talk about me."""
-
-    def on_status(self, status):
-        """Mangle that user image."""
-        if "detweeterbot" in status.entities.user_mentions.screen_name:
-            mangle_reply(status)
-
-
 keys = tr.key_access()
 auth = tweepy.OAuthHandler(keys['consumer_key'], keys['consumer_secret'])
 auth.set_access_token(keys['access_token'], keys['access_token_secret'])
 api = tweepy.API(auth)
-#
-# narc = Nartransistor()
-# mynarc = tweepy.Stream(auth, listener=narc)
-# mynarc.filter(track=['detweeterbot'])
 
 try:
     with open("recent_twits.json") as fn:
@@ -95,7 +82,7 @@ if not len(twit_dic):
             twit_dic.update({item: twit})
             print(item + ': ' + twit)
         except Exception:
-            "That one don't exist, bitch."
+            "That one don't exist, babe."
     with open("recent_twits.json", "w") as fn:
         json.dump(twit_dic, fn)
 naps = 0
@@ -105,10 +92,10 @@ while(True):
         for mentos in api.mention(count=5):
             mangle_reply(mentos)
     except Exception:
-        print("You ain't that popular bitch")
+        print("You ain't that popular, babe")
     try:
-        jewel_runner_bitch()
-        print("naptime bitchez " + str(naps))
+        jewel_runner()
+        print("naptime babez " + str(naps))
         time.sleep(30)
     except Exception:
-        print("FUCKING UNICODE")
+        print("UNICODE")
