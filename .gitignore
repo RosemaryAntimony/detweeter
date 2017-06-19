@@ -1,0 +1,8 @@
+*.json
+*.pyc
+*.py
+!detweet_last.py
+!detweet.py
+!imaginations.py
+!tweet_reader.py
+!run_the_jewels.py
