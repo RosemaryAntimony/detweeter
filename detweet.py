@@ -11,29 +11,33 @@ def detweet(tweeter):
     auth = tweepy.OAuthHandler(keys['consumer_key'], keys['consumer_secret'])
     auth.set_access_token(keys['access_token'], keys['access_token_secret'])
     api = tweepy.API(auth)
-
+    print(" authorization: complete")
     profile = api.get_user(tweeter)
     pic_add = profile.profile_image_url
     pic = imags.get_twitpic(pic_add.replace("_normal", ""), tweeter)
     pix = pic.load()
     path = "./twits/imgs/{}/".format(tweeter)
-
+    print(" image: acquired")
     data = tr.twit_reader(tweeter)
-
+    print(" tweets: mcgotten")
+    # print(" {} data".format(len(data)))
     with open("./twits/corpses/{}_corpus.txt".format(tweeter), "w") as fp:
-        for ii in xrange(len(data) if len(data) < 5000 else 5000):
-            for obj in data[ii]:
-                twit = "{}\n".format(obj["text"])
+        print(" corpse: opened")
+        for ii in xrange(len(data)):
+            for jj in xrange(len(data[ii]) if len(data[ii]) < 5000 else 5000):
+                # print("{}".format(data[ii][jj]["text"]))
+                twit = data[ii][jj]["text"] + "\n"
                 fp.write(twit.encode("utf-8"))
-
+            # if ii > len(data):
+            # break
+    print(" corpse: ready")
     with open("./twits/corpses/{}_corpus.txt".format(tweeter), 'r') as cf:
         corpus = cf.read()
         model = markovify.Text(corpus, state_size=2)
-
+    print(" model: super")
     tweet_len = 138 - len(tweeter)
     sentence = ''
     temp_sentence = model.make_short_sentence(tweet_len)
-
     try:
         sentence += '{} '.format(temp_sentence)
         tweet_len -= len(temp_sentence)
@@ -44,7 +48,7 @@ def detweet(tweeter):
         if temp_sentence is not None:
             sentence += temp_sentence + ' '
             tweet_len -= len(temp_sentence) + 1
-
+    print(" sentence: commuted")
     sentence += "#{}".format(tweeter)
     pic_name = "{}_dtm.jpg".format(tweeter)
     xx = pic.size[0]
@@ -69,11 +73,11 @@ def detweet(tweeter):
     imags.scoots(pix, xx, yy, sentence)
     imags.xorror(pix, xx, yy, sentence)
     pic.save(path + pic_name)
-
+    print(" glitch: art")
     sentence = sentence.replace("@", "#")
     sentence = sentence.replace("&amp;", "&")
     sentence = sentence.encode('utf-8')
-    print (sentence)
+    print (" " + sentence)
     try:
         api.update_with_media(path + pic_name, sentence)
     except Exception:

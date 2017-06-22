@@ -15,9 +15,9 @@ def jewel_runner():
             new_twit = api.user_timeline(item)[0].text
             print("checking " + item)
             if new_twit != twit_dic[item]:
+                print(" gotcha")
                 dtw.detweet(item)
                 twit_dic[item] = new_twit
-                print("gotcha")
                 with open("recent_twits.json", "w") as fn:
                     json.dump(twit_dic, fn)
                 break
@@ -95,7 +95,7 @@ while(True):
         print("You ain't that popular, babe")
     try:
         jewel_runner()
-        print("naptime babez " + str(naps))
+        print(" naptime babez " + str(naps))
         time.sleep(30)
     except Exception:
         print("UNICODE")
